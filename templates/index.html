@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}My Recipes{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">My Recipes</h2>
+
+{% if recipes %}
+  {% for r in recipes %}
+  <form id="delete-form-{{ r.recipe_id }}" method="POST"
+        action="/recipes/{{ r.recipe_id }}/delete" class="d-none"></form>
+  {% endfor %}
+
+  <form method="GET" action="/daily" id="daily-form">
+    <div class="row g-3">
+      {% for r in recipes %}
+      <div class="col-md-4">
+        <input class="recipe-check d-none" type="checkbox"
+               name="ids" value="{{ r.recipe_id }}" id="chk-{{ r.recipe_id }}">
+        <label for="chk-{{ r.recipe_id }}" class="card h-100 recipe-card mb-0"
+               style="cursor:pointer">
+          <div class="card-body d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-start mb-1">
+              <p class="fw-semibold mb-0">{{ r.name }}</p>
+            </div>
+            <p class="text-muted small mb-3">{{ r.created_at.strftime("%d %b %Y") }}</p>
+            <div class="mt-auto d-flex gap-2">
+              <a href="/recipes/{{ r.recipe_id }}" class="btn btn-success btn-sm"
+              onclick="event.stopPropagation()">View nutrients</a>
+              <a href="/recipes/{{ r.recipe_id }}/edit" class="btn btn-outline-primary btn-sm"
+                 onclick="event.stopPropagation()">Edit</a>
+              <button type="button" class="btn btn-outline-danger btn-sm"
+                      onclick="event.stopPropagation(); if(confirm('Delete this recipe?')) document.getElementById('delete-form-{{ r.recipe_id }}').submit()">
+                Delete
+              </button>
+            </div>
+          </div>
+        </label>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div id="daily-bar" class="position-fixed bottom-0 start-0 end-0 bg-success text-white p-3 d-none">
+      <div class="container d-flex justify-content-between align-items-center">
+        <span id="daily-count">0 recipes selected</span>
+        <button type="submit" class="btn btn-light btn-sm fw-semibold">View daily overview →</button>
+      </div>
+    </div>
+  </form>
+{% else %}
+  <p class="text-muted">No recipes yet. <a href="/recipes/new">Create one</a>.</p>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<style>
+  .recipe-card { transition: border-color .15s, box-shadow .15s; }
+  .recipe-check:checked + .recipe-card {
+    border-color: #198754;
+    box-shadow: 0 0 0 3px rgba(25,135,84,.25);
+  }
+</style>
+<script>
+  const checks = document.querySelectorAll('.recipe-check');
+  const bar = document.getElementById('daily-bar');
+  const countLabel = document.getElementById('daily-count');
+
+  function updateBar() {
+    const n = [...checks].filter(c => c.checked).length;
+    bar.classList.toggle('d-none', n === 0);
+    countLabel.textContent = n + ' recipe' + (n !== 1 ? 's' : '') + ' selected';
+  }
+  checks.forEach(c => c.addEventListener('change', updateBar));
+</script>
+{% endblock %}

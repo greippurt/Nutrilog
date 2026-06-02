@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Profile – Nutrilog{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-sm-10 col-md-6 col-lg-4">
+    <div class="card shadow-sm mt-4">
+      <div class="card-body p-4">
+        <h3 class="card-title mb-4 text-center">Your Profile</h3>
+
+        <div class="mb-3">
+          <label class="form-label text-muted small">Name</label>
+          <p class="fw-semibold mb-0">{{ user.name }}</p>
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-muted small">Email</label>
+          <p class="fw-semibold mb-0">{{ user.email }}</p>
+        </div>
+        <div class="mb-4">
+          <label class="form-label text-muted small">Sex</label>
+          <p class="fw-semibold mb-0">{{ user.sex | capitalize if user.sex else '—' }}</p>
+        </div>
+
+        <hr>
+
+        <form method="POST" action="/profile">
+          <div class="mb-3">
+            <label class="form-label">Age</label>
+            <input type="number" name="age" class="form-control"
+                   min="1" max="120" required
+                   value="{{ user.age or '' }}">
+          </div>
+          <div class="mb-4">
+            <label class="form-label">Weight (kg)</label>
+            <input type="number" name="weight_kg" class="form-control"
+                   min="1" step="0.1" required
+                   value="{{ user.weight_kg or '' }}">
+          </div>
+          <button type="submit" class="btn btn-success w-100">Save changes</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

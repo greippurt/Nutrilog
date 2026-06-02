@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Daily overview – Nutrilog{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h2 class="mb-0">Daily overview</h2>
+    <p class="text-muted small mb-0">
+      {% for r in recipes %}{{ r.name }}{% if not loop.last %}, {% endif %}{% endfor %}
+    </p>
+  </div>
+  <a href="/" class="btn btn-outline-secondary btn-sm">← Back</a>
+</div>
+
+<div class="card">
+  <div class="card-header fw-semibold d-flex flex-wrap align-items-center gap-2">
+    Nutritional values (combined total)
+    <div class="ms-auto d-flex flex-wrap gap-1">
+      <button class="btn btn-sm btn-success" data-filter="all">All</button>
+      <button class="btn btn-sm btn-outline-secondary" data-filter="Macro nutrients etc.">Macros</button>
+      <button class="btn btn-sm btn-outline-secondary" data-filter="Vitamins">Vitamins</button>
+      <button class="btn btn-sm btn-outline-secondary" data-filter="Minerals and inorganic">Minerals</button>
+    </div>
+    <input type="search" id="nutrient-search" class="form-control form-control-sm w-auto"
+           placeholder="Search nutrient…" style="min-width:160px">
+  </div>
+  <div class="card-body p-0">
+    <table class="table table-striped mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Nutrient</th>
+          <th class="text-end">Amount</th>
+          {% if nnr_map %}
+          <th class="text-end">Rec. daily</th>
+          <th class="text-end">% of rec.</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody id="nutrient-tbody">
+        {% for n in nutrients %}
+        {% set rec = nnr_map.get(n.parameter_id) %}
+        <tr data-group="{{ n.nutrient_group }}">
+          <td>{{ n.name_english }}</td>
+          <td class="text-end">{{ n.total }} <span class="text-muted small">{{ n.unit }}</span></td>
+          {% if nnr_map %}
+          <td class="text-end">
+            {% if rec %}{{ rec | round(1) }} <span class="text-muted small">{{ n.unit }}</span>{% else %}—{% endif %}
+          </td>
+          <td class="text-end">
+            {% if rec and rec > 0 %}
+              {% set pct = ((n.total | float / rec) * 100) | round(0) | int %}
+              <span class="fw-semibold {% if pct >= 100 %}text-success{% elif pct >= 50 %}text-warning{% else %}text-danger{% endif %}">{{ pct }}%</span>
+            {% else %}—{% endif %}
+          </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const searchInput = document.getElementById('nutrient-search');
+  const filterBtns = document.querySelectorAll('[data-filter]');
+  let activeGroup = 'all';
+
+  function applyFilters() {
+    const q = searchInput.value.toLowerCase();
+    document.querySelectorAll('#nutrient-tbody tr').forEach(row => {
+      const name = row.querySelector('td').textContent.toLowerCase();
+      const group = row.dataset.group || '';
+      const matchesGroup = activeGroup === 'all' || group === activeGroup;
+      const matchesSearch = name.includes(q);
+      row.style.display = matchesGroup && matchesSearch ? '' : 'none';
+    });
+  }
+
+  searchInput.addEventListener('input', applyFilters);
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => {
+        b.classList.remove('btn-success');
+        b.classList.add('btn-outline-secondary');
+      });
+      btn.classList.remove('btn-outline-secondary');
+      btn.classList.add('btn-success');
+      activeGroup = btn.dataset.filter;
+      applyFilters();
+    });
+  });
+</script>
+{% endblock %}

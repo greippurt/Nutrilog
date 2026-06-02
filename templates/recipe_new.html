@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}New Recipe{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <h2 class="mb-4">New Recipe</h2>
+
+    <form method="POST" action="/recipes" id="recipe-form">
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Recipe name</label>
+        <input type="text" name="name" class="form-control" placeholder="e.g. Overnight oats" required>
+      </div>
+
+      <hr>
+      <h5 class="mb-3">Ingredients</h5>
+
+      <!-- Food search -->
+      <div class="mb-3 position-relative">
+        <label class="form-label">Search food</label>
+        <input type="text" id="food-search" class="form-control"
+               placeholder="Start typing a food name…" autocomplete="off">
+        <ul id="search-results" class="list-group shadow-sm"></ul>
+      </div>
+
+      <!-- Ingredient list (populated by JS) -->
+      <ul id="ingredient-list" class="list-group mb-4"></ul>
+
+      <button type="submit" class="btn btn-success w-100">Save recipe</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const searchInput = document.getElementById("food-search");
+  const resultsList = document.getElementById("search-results");
+  const ingredientList = document.getElementById("ingredient-list");
+  const form = document.getElementById("recipe-form");
+
+  let debounceTimer;
+
+  searchInput.addEventListener("input", () => {
+    clearTimeout(debounceTimer);
+    const q = searchInput.value.trim();
+    if (q.length < 2) { resultsList.innerHTML = ""; return; }
+
+    debounceTimer = setTimeout(async () => {
+      const res = await fetch(`/api/foods?q=${encodeURIComponent(q)}`);
+      const foods = await res.json();
+      resultsList.innerHTML = foods.map(f =>
+        `<li class="list-group-item list-group-item-action" style="cursor:pointer"
+             data-id="${f.food_id}" data-name="${f.name_english}">
+           ${f.name_english} <small class="text-muted">(${f.name_danish})</small>
+         </li>`
+      ).join("");
+    }, 250);
+  });
+
+  resultsList.addEventListener("click", e => {
+    const li = e.target.closest("li");
+    if (!li) return;
+    addIngredient(li.dataset.id, li.dataset.name);
+    resultsList.innerHTML = "";
+    searchInput.value = "";
+  });
+
+  document.addEventListener("click", e => {
+    if (!resultsList.contains(e.target) && e.target !== searchInput)
+      resultsList.innerHTML = "";
+  });
+
+  function addIngredient(foodId, foodName) {
+    const idx = ingredientList.children.length;
+    const li = document.createElement("li");
+    li.className = "list-group-item d-flex justify-content-between align-items-center";
+    li.innerHTML = `
+      <span class="me-2">${foodName}</span>
+      <div class="d-flex align-items-center gap-2">
+        <input type="number" name="amount" placeholder="grams" min="0.1" step="0.1"
+               class="form-control form-control-sm" style="width:90px" required>
+        <input type="hidden" name="food_id" value="${foodId}">
+        <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('li').remove()">✕</button>
+      </div>`;
+    ingredientList.appendChild(li);
+  }
+
+  form.addEventListener("submit", e => {
+    if (ingredientList.children.length === 0) {
+      e.preventDefault();
+      alert("Add at least one ingredient.");
+    }
+  });
+</script>
+{% endblock %}
