@@ -1,4 +1,4 @@
---
+﻿--
 -- PostgreSQL database dump
 --
 
@@ -34,7 +34,7 @@ CREATE TABLE public.recipe_ingredients (
 );
 
 
-ALTER TABLE public.recipe_ingredients OWNER TO greippurt;
+ALTER TABLE public.recipe_ingredients OWNER TO postgres;
 
 --
 -- Name: recipes; Type: TABLE; Schema: public; Owner: greippurt
@@ -48,7 +48,7 @@ CREATE TABLE public.recipes (
 );
 
 
-ALTER TABLE public.recipes OWNER TO greippurt;
+ALTER TABLE public.recipes OWNER TO postgres;
 
 --
 -- Name: recipes_recipe_id_seq; Type: SEQUENCE; Schema: public; Owner: greippurt
@@ -63,7 +63,7 @@ CREATE SEQUENCE public.recipes_recipe_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.recipes_recipe_id_seq OWNER TO greippurt;
+ALTER SEQUENCE public.recipes_recipe_id_seq OWNER TO postgres;
 
 --
 -- Name: recipes_recipe_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: greippurt
@@ -87,7 +87,7 @@ CREATE TABLE public.users (
 );
 
 
-ALTER TABLE public.users OWNER TO greippurt;
+ALTER TABLE public.users OWNER TO postgres;
 
 --
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: greippurt
@@ -102,7 +102,7 @@ CREATE SEQUENCE public.users_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.users_id_seq OWNER TO greippurt;
+ALTER SEQUENCE public.users_id_seq OWNER TO postgres;
 
 --
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: greippurt
