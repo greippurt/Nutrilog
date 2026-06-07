@@ -101,4 +101,4 @@ Nutrilog/
 
 ## AI Declaratiom 
 
-We have used generative AI as as a tool for this assignment. It also been used as to provide guidance on how certain features could be implemented, primarily frontend. It has also assisted us with debugging and fixing errors.
+We have used generative AI as as a tool for this assignment. It has been used as to provide guidance on how certain features could be implemented, primarily html. It has also assisted us with debugging and fixing errors.
