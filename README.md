@@ -77,8 +77,7 @@ Open [http://localhost:5000](http://localhost:5000) in your browser.
 ```
 Nutrilog/
 ├── app.py              # Flask routes and application logic
-├── db.py               # PostgreSQL connection helpers
-├── init_db.py          # One-time table setup script
+├── db.py               # PostgreSQL connection script
 ├── requirements.txt    # Python dependencies
 ├── .env.example        # Environment variable template
 ├── templates/          # Jinja2 HTML templates
