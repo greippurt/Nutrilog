@@ -56,16 +56,12 @@ DATABASE_URL=postgresql://postgres:password@localhost:5432/postgres
 **5. Create the database and load food data**
 
 ```bash
-createdb myapp
-psql myapp < myapp_food_groups_2026-06-02_173256.sql
-psql myapp < myapp_recipe_ingredients_2026-06-02_173309.sql
+createdb postgres
+psql postgres < myapp_food_groups_2026-06-02_173256.sql
+psql postgres < myapp_recipe_ingredients_2026-06-02_173309.sql
 ```
 
 **6. Create application tables**
-
-```bash
-python init_db.py
-```
 
 **7. Run the app**
 
@@ -92,11 +88,10 @@ Nutrilog/
 | Variable | Description |
 |---|---|
 | `DATABASE_URL` | PostgreSQL connection string |
-| `SECRET_KEY` | Flask session secret (defaults to a dev key — set this in production) |
 
 ## How to use the program 
 
-1. Start by creating a user account. During registration, you will be asked to provide your name,     email address, sex, age, and weight. This information is used to personalise nutritional recommendations.
+1. Start by creating a user account. During registration, you will be asked to provide your name, email address, sex, age, and weight. This information is used to personalise nutritional recommendations.
 2. After logging in, click "+ New Recipe" to create a new recipe. Enter a name for the recipe and add the desired ingredients using the food search function. For each ingredient, specify the amount in grams.
 3. Once all ingredients have been added, save the recipe. The recipe will then be stored in your account and can be viewed or edited later.
 4. After saving a recipe, Nutrilog calculates its nutritional content and displays a detailed overview. This includes macronutrients, vitamins, minerals, and other nutritional values based on the selected ingredients and quantities.
