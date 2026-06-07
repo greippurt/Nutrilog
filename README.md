@@ -91,3 +91,15 @@ Nutrilog/
 |---|---|
 | `DATABASE_URL` | PostgreSQL connection string |
 | `SECRET_KEY` | Flask session secret (defaults to a dev key — set this in production) |
+
+## How to use the program 
+
+1. Start by creating a user account. During registration, you will be asked to provide your name,     email address, sex, age, and weight. This information is used to personalise nutritional recommendations.
+2. After logging in, click "+ New Recipe" to create a new recipe. Enter a name for the recipe and add the desired ingredients using the food search function. For each ingredient, specify the amount in grams.
+3. Once all ingredients have been added, save the recipe. The recipe will then be stored in your account and can be viewed or edited later.
+4. After saving a recipe, Nutrilog calculates its nutritional content and displays a detailed overview. This includes macronutrients, vitamins, minerals, and other nutritional values based on the selected ingredients and quantities.
+5. Multiple recipes can be selected and combined in the daily overview page. This feature shows the total nutritional intake across all selected recipes and compares it with the Nordic Nutrition Recommendations (NNR).
+
+## AI Declaratiom 
+
+We have NOT used generative AI as an aid/tool.
