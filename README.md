@@ -101,4 +101,4 @@ Nutrilog/
 
 ## AI Declaratiom 
 
-We have NOT used generative AI as an aid/tool.
+We have used generative AI as as a tool for this assignment. It has been used to help clarify the theory and topics related to the course. It has also been used as to provide guidance on how certain features could be implemented. It has also assisted us with debugging and fixing errors.
