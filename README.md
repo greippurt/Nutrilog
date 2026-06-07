@@ -3,6 +3,7 @@
 A Flask web app for tracking nutritional intake. Build recipes from a food database, view per-nutrient breakdowns, and compare against Nordic Nutrition Recommendations (NNR) based on your age, sex, and weight.
 Please see https://web-production-38130.up.railway.app/ for deployed application.
 Values of nutrients have been pulled from https://fcdb.fooddata.dk/search, a public database of the nutritional value of food.
+The daily recommend intake has been pulled from Nordic Nutrition Recommendations 2023 (https://pub.norden.org/nord2023-003/recommendations.html#lnk8a6f4ce4-9a42-4838-ad90-2ce2a2ac9209)
 
 ## Features
 
