@@ -1,6 +1,7 @@
 # Nutrilog
 
 A Flask web app for tracking nutritional intake. Build recipes from a food database, view per-nutrient breakdowns, and compare against Nordic Nutrition Recommendations (NNR) based on your age, sex, and weight.
+Please see https://web-production-38130.up.railway.app/ for deployed application
 
 ## Features
 
@@ -47,7 +48,7 @@ cp .env.example .env
 Edit `.env` and set your PostgreSQL connection string:
 
 ```
-DATABASE_URL=postgresql://localhost:5432/myapp
+DATABASE_URL=postgresql://postgres:password@localhost:5432/postgres
 ```
 
 **5. Create the database and load food data**
