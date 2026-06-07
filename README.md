@@ -102,3 +102,7 @@ Nutrilog/
 ## AI Declaratiom 
 
 We have used generative AI as as a tool for this assignment. It has been used as to provide guidance on how certain features could be implemented, primarily html. It has also assisted us with debugging and fixing errors.
+
+## Openeing the ER/Diagram
+
+To see the ER/Diagram you need to have the file downloaded onto your computer and then open it from your folders. It will the send you to a browser where you can see the diagram.
