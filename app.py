@@ -3,6 +3,7 @@ from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import db
+import re 
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-change-in-production")
@@ -47,10 +48,22 @@ def register():
         sex       = request.form["sex"]
         age       = int(request.form["age"])
         weight_kg = float(request.form["weight_kg"])
+
+        lowerCase = re.search("[a-z]", password);
+        upperCase = re.search("[A-Z]", password);
+        number = re.search("[0-9]", password);
+        specialChar = re.search("[@£$€#¤%&/()=´`¨^'*~|]", password)
+
         if password != confirm:
             flash("Passwords do not match.")
         elif len(password) < 6:
             flash("Password must be at least 6 characters.")
+        elif specialChar == None:
+            flash("Password must have at least one special character from following list: @£$€#¤%&/()=´`¨^'*~|")
+        elif lowerCase == None or upperCase == None:
+            flash("Password must have at least one upper and lower case letter")
+        elif number == None:
+            flash("Password must contain at least one number")    
         else:
             existing = db.query("SELECT id FROM users WHERE email = %s", (email,))
             if existing:
